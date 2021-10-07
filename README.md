@@ -2,6 +2,8 @@
 
 A simple app built with ClojureScript and Reagent.
 
-cd /Users/ryankaye/Documents/Clojure/todo/cljs-todo
+# Start up
+
+cd Documents/Clojure/todo/cljs-todo
 
 npm start
