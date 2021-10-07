@@ -1,6 +1,6 @@
 # ClojureScript TODO
 
-A simple app built with ClojureScript and Reagent.
+A super simple TODO app built with ClojureScript and Reagent.
 
 # Start up
 
