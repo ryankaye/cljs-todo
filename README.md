@@ -1,4 +1,4 @@
-# cljs-todo
+# ClojureScript TODO
 
 A simple app built with ClojureScript and Reagent.
 
