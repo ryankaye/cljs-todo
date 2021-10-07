@@ -1,0 +1,66 @@
+body{
+  background-color: #fff; 
+}
+
+header{
+   max-width: 1200px;
+   text-align: center;
+   margin: 0 auto;
+}
+
+main{
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+button{ 
+   padding: 7px 15px;
+   position: relative;
+   cursor: pointer;
+   font-family: "Bitter", serif;
+   font-size: 1.3rem;
+}
+
+.todo-form {
+  text-align: center;
+}
+
+.todo-form input{
+   width:70%;
+   padding: 1rem;
+   margin-right: 20px;
+   font-family: "Bitter", serif;
+   font-size: 1.5rem;
+   border: 1px solid #ccc;
+}
+
+.todo-form input::placeholder{
+   font-family: "Bitter", serif;
+   font-size: 1.3rem;
+}
+
+ul.todo-list{
+   text-align: left;
+   margin-left: 100px;
+   margin-top: 60px;
+}
+
+ul.todo-list li{ 
+   list-style: none;
+   margin-left: 0;
+   padding-left: 0;
+}
+
+.todo-list li input{ 
+   margin: 0px 40px 20px 5px;  
+}
+
+.todo-list li button{ 
+   border: none;
+   font-size: 1.7rem;
+   font-weight: 300;
+   background-color: rgba(0,0,0,0);
+   color: #a2a2a2;
+   font-family: 'Roboto Mono', monospace;
+
+}
