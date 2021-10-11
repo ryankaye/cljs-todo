@@ -18,7 +18,7 @@
 (defn delete-todo [todoid]
   (swap! state/todos dissoc todoid todoid))
 
-;; Component: Add Form wth local state
+;; Component: Add Form with local state
 
 (defn todo-form []
   (let [new-todo (r/atom {:new-input "" :uid 10})]
