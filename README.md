@@ -17,3 +17,4 @@ npm start
 - Update item save button
 - Add due date
 - Add tags
+- Switch back to global Atom state

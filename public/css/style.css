@@ -1,16 +1,38 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  
+}
+
+a {
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+}
+
+a:hover {
+   border-bottom: 1px solid #ccc;
+}
+
 body{
   background-color: #fff; 
 }
 
-header{
+header, footer{
    max-width: 1200px;
    text-align: center;
-   margin: 0 auto;
+   margin: 20px auto 0;
 }
 
 main{
    max-width: 1200px;
    margin: 0 auto;
+   padding: 0 50px;
+}
+
+footer{
+   text-align: left;
+   margin-top: 30px;
 }
 
 button{ 
@@ -18,49 +40,116 @@ button{
    position: relative;
    cursor: pointer;
    font-family: "Bitter", serif;
-   font-size: 1.3rem;
+   font-size: 1.1rem;
 }
 
-.todo-form {
-  text-align: center;
+input{ 
+   margin: 0px ;  
 }
 
-.todo-form input{
-   width:70%;
-   padding: 1rem;
+input[type=date]{
+   border: none;
+}
+
+.todo-form input[type=text]{
+   padding: 1rem .5rem;
    margin-right: 20px;
+   margin-bottom: 0;
    font-family: "Bitter", serif;
-   font-size: 1.5rem;
-   border: 1px solid #ccc;
+   font-size: 1.2rem;
+   border: none;
+   width: 95%;
 }
 
 .todo-form input::placeholder{
    font-family: "Bitter", serif;
-   font-size: 1.3rem;
+   font-size: 1.2rem;
 }
 
+/* Update list form */ 
 ul.todo-list{
    text-align: left;
-   margin-left: 100px;
-   margin-top: 60px;
-}
-
-ul.todo-list li{ 
-   list-style: none;
-   margin-left: 0;
+   margin-top: 20px;
    padding-left: 0;
 }
 
-.todo-list li input{ 
-   margin: 0px 40px 20px 5px;  
+ul.todo-list li{ 
+   display: grid;
+   align-items: center;
+   grid-gap: 10px;
+   list-style: none;
+   margin-left: 0;
+   border-bottom: 1px solid #ccc;
+   margin-bottom: 15px;
+   padding-left: 0;
+   padding-bottom: 30px;
 }
 
-.todo-list li button{ 
-   border: none;
-   font-size: 1.7rem;
-   font-weight: 300;
-   background-color: rgba(0,0,0,0);
-   color: #a2a2a2;
-   font-family: 'Roboto Mono', monospace;
 
+@media only screen and (max-width: 599px) {
+   ul.todo-list li{
+      position: relative;
+   }
+
+   ul.todo-list li input[type=radio]{ 
+      position: absolute;
+      left: -20px;
+      top: 20px;
+   }
+}
+
+@media only screen and (min-width: 600px) {
+   ul.todo-list li{ 
+      grid-template-columns: 1fr 11fr 3fr 2fr;
+      justify-items: center;
+      padding-bottom: 0px;
+   }
+}
+
+ul.todo-list li input[type=radio]{
+   width:15px;
+   height: 15px;
+}
+
+ul.todo-list li input[type=date]{
+   padding: 5px;
+}
+
+ul.todo-list li.overdue input[type=date]{
+   border:1px solid red;
+   color: red;
+}
+
+/* Add Form */ 
+
+.todo-form {
+   margin-top: 30px;
+}
+
+.todo-form .add-form {
+   display: grid;
+   grid-gap: 10px;
+   border-bottom: 1px solid #ccc;
+   padding-bottom: 30px;
+}
+
+.todo-form .add-form button{
+   margin: 10px;
+}
+
+.todo-form input.add-input[type=text]{
+   border: 1px solid #ccc;
+}
+
+@media only screen and (min-width: 600px) {
+   .todo-form .add-form {
+      grid-template-columns: 12fr 3fr 2fr;
+      justify-items: center;
+      padding-bottom: 0px;
+      padding-left: 10px;
+   }
+
+   .todo-form input.add-input[type=text]{
+      border: none;
+   }
 }

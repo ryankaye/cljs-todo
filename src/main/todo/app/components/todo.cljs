@@ -21,17 +21,19 @@
 ;; Component: Add Form with local state
 
 (defn todo-form []
-  (let [new-todo (r/atom {:new-input "" :uid 10})]
+  (let [new-todo (r/atom {:uid 10 :new-input "" :new-date ""})]
     (fn []
-      [:div
-       [:input {:placeholder "Add a new todo item"
-                :value  (get @new-todo :new-input)
-                :on-key-up (fn [e]
-                             (if (and (not= (get @new-todo [:new-input]) "") (= (-> e .-which) 13))
-                               (do (add-todo new-todo)
-                                   (swap! new-todo assoc-in [:uid] (inc (get-in @new-todo [:uid])))
-                                   (swap! new-todo assoc-in [:new-input] ""))))
-                :on-change (fn [e] (swap! new-todo assoc-in [:new-input] (-> e .-target .-value)))}]
+      [:div.add-form
+       [:input.add-input {:type :text
+                          :placeholder "Add a new todo item"
+                          :value  (get @new-todo :new-input)
+                          :on-key-up (fn [e]
+                                       (if (and (not= (get @new-todo [:new-input]) "") (= (-> e .-which) 13))
+                                         (do (add-todo new-todo)
+                                             (swap! new-todo assoc-in [:uid] (inc (get-in @new-todo [:uid])))
+                                             (swap! new-todo assoc-in [:new-input] ""))))
+                          :on-change (fn [e] (swap! new-todo assoc-in [:new-input] (-> e .-target .-value)))}]
+       [:input {:type :date}]
        [:button {:data-tooltip "Add a new todo item"
                  :disabled (if (= (get @new-todo :new-input) "") "disabled")
                  :on-click (fn []
@@ -43,14 +45,20 @@
 
 (defn todo-listing []
   [:ul.todo-list
-   (map (fn [{:keys [todoid item]}]
+   (map (fn [{:keys [todoid item date]}]
           [:li {:key todoid}
-           [:button {:data-tooltip "Delete todo"
-                     :on-click (fn []
-                                 (delete-todo todoid))} " x "]
+           [:input {:type :radio
+                    :data-tooltip "Delete todo"
+                    :on-click (fn []
+                                (delete-todo todoid))}]
            [:input {:value item
+                    :type :text
                     :on-change (fn [e]
-                                 (update-todo e todoid))}]])
+                                 (update-todo e todoid))}]
+           [:input {:type :date
+                    :value date
+                    :on-change (fn [e]
+                                 ())}]])
         (vals (reverse @state/todos)))])
 
 ;; Component: Main views renderer

@@ -2,4 +2,4 @@
 
 (defn header []
   [:header
-   [:img.logo {:src "img/gelato.svg" :alt "logo" :width "350"  :height "174"}]])
+   [:img.logo {:src "img/gelato.svg" :alt "logo" :width "280"  :height "139"}]])
