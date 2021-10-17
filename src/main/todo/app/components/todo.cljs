@@ -4,61 +4,66 @@
 
 
 ;; Add a new todo
-;; 
-(defn add-todo [vals]
-  (swap! state/data update :todos merge
-         {(get-in @vals [:uid]) {:todoid (get-in @vals [:uid]) :item (get-in @vals [:new-input]) :date "2021-12-25"}}))
+;; Swap! to amend atom merge to amend the map 
 
-;; (defn add-todo2 [vals]
-;;   (swap! state/todos merge
-;;          {(get-in @vals [:uid]) {:todoid (get-in @vals [:uid]) :item (get-in @vals [:new-input])}}))
+
+(defn add-todo [new-todo]
+  (swap! state/data update :todos merge
+         {(get-in new-todo [:todoid]) new-todo}))
 
 
 ;; Update an existing todo
-(defn update-todo [e todoid]
-  (swap! state/data update :todos assoc-in [todoid :item] (-> e .-target .-value)))
+;; Swap! to amend atom assoc-in to amend the map 
 
-;; (defn update-todo2 [e todoid]
-;;   (swap! state/todos assoc-in [todoid :item] (-> e .-target .-value)))
+
+(defn update-todo [e todoid]
+  (if (= (-> e .-target .-type) "date")
+    (swap! state/data update :todos assoc-in [todoid :date] (-> e .-target .-value))
+    (swap! state/data update :todos assoc-in [todoid :item] (-> e .-target .-value))))
 
 
 ;; Delete a todo
-;; dissoc removes item from map
+;; Swap! to amend atom dissoc to amend the map 
+
+
 (defn delete-todo [todoid]
-  (swap! state/data update :todos dissoc todoid ))
+  (swap! state/data update :todos dissoc todoid))
 
 
-;; Component: Add Form with local state
-
-(defn todo-form []
-  (let [new-todo (r/atom {:uid 10 :new-input "" :new-date ""})]
-    (fn []
-      [:div.add-form
-       [:input.add-input {:type :text
-                          :placeholder "Add a new todo item 2"
-                          :value  (get @new-todo :new-input)
-                          :on-key-up (fn [e]
-                                       (if (and (not= (get @new-todo [:new-input]) "") (= (-> e .-which) 13))
-                                         (do (add-todo new-todo)
-                                             (swap! new-todo assoc-in [:uid] (inc (get-in @new-todo [:uid])))
-                                             (swap! new-todo assoc-in [:new-input] ""))))
-                          :on-change (fn [e] (swap! new-todo assoc-in [:new-input] (-> e .-target .-value)))}]
-       [:input {:type :date}]
-       [:button {:data-tooltip "Add a new todo item"
-                 :disabled (if (= (get @new-todo :new-input) "") "disabled")
-                 :on-click (fn []
-                             (add-todo new-todo)
-                             (swap! new-todo assoc-in [:uid] (inc (get-in @new-todo [:uid])))
-                             (swap! new-todo assoc-in [:new-input] ""))} "Add"]])))
+;; Component: Add Form 
 
 
-;; Component: Listing + update
+(defn todo-add-form []
+  [:div.add-form
+   [:input.add-input {:type :text
+                      :placeholder "Add a new todo item"
+                      :value  (get (get @state/data :new-todo) :item)
+                      :on-key-up (fn [e]
+                                   (if (and (not= (get (get @state/data :new-todo) :item) "") (= (-> e .-which) 13))
+                                     (do (add-todo (get @state/data :new-todo))
+                                         (swap! state/data update :new-todo assoc-in [:todoid] (inc (get-in (get @state/data :new-todo) [:todoid])))
+                                         (swap! state/data update :new-todo assoc-in [:date] "")
+                                         (swap! state/data update :new-todo assoc-in [:item] ""))))
+                      :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:item] (-> e .-target .-value)))}]
+   [:input {:type :date :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:date] (-> e .-target .-value)))}]
+   [:button {:data-tooltip "Add a new todo item"
+             :disabled (if (= (get (get @state/data :new-todo) :item) "") "disabled")
+             :on-click (fn []
+                         (add-todo (get @state/data :new-todo))
+                         (swap! state/data update :new-todo assoc-in [:todoid] (inc (get-in (get @state/data :new-todo) [:todoid])))
+                         (swap! state/data update :new-todo assoc-in [:date] "")
+                         (swap! state/data update :new-todo assoc-in [:item] ""))} "Add"]])
 
-(defn todo-listing []
+
+
+;; Component: Update form + listing
+
+
+(defn todo-update-form []
   [:ul.todo-list
-   [println @state/data]
+
    (map (fn [{:keys [todoid item date]}]
-          [:li {:key todoid}
+          [:li {:key todoid :class (if (> (.now js/Date) (.parse js/Date date)) "overdue" "")}
            [:input {:type :radio
                     :data-tooltip "Delete todo"
                     :on-click (fn []
@@ -70,14 +75,15 @@
            [:input {:type :date
                     :value date
                     :on-change (fn [e]
-                                 ())}]])
+                                 (update-todo e todoid))}]])
         (vals (reverse (get @state/data :todos))))])
 
 
 ;; Component: Main views renderer
 
+
 (defn todo []
   [:main
    [:div.todo-form
-    [todo-form]
-    [todo-listing]]])
+    [todo-add-form]
+    [todo-update-form]]])
