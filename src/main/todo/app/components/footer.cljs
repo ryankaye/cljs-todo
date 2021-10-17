@@ -2,5 +2,5 @@
 
 (defn footer []
   [:footer
-   [:p "Built with ClojureScript Reagent."
+   [:p "Built with ClojureScript Reagent. "
     [:a {:href "https://github.com/ryankaye/cljs-todo"} "View source code"]]])
