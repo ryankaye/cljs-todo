@@ -1,6 +1,5 @@
 (ns todo.app.components.todo
-  (:require [todo.app.state :as state])
-  (:require [reagent.core :as r]))
+  (:require [todo.app.state :as state]))
 
 
 ;; Add a new todo
@@ -45,7 +44,9 @@
                                          (swap! state/data update :new-todo assoc-in [:date] "")
                                          (swap! state/data update :new-todo assoc-in [:item] ""))))
                       :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:item] (-> e .-target .-value)))}]
-   [:input {:type :date :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:date] (-> e .-target .-value)))}]
+   [:input {:type :date
+            :value  (get (get @state/data :new-todo) :date)
+            :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:date] (-> e .-target .-value)))}]
    [:button {:data-tooltip "Add a new todo item"
              :disabled (if (= (get (get @state/data :new-todo) :item) "") "disabled")
              :on-click (fn []

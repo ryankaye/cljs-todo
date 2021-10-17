@@ -1,6 +1,6 @@
-# ClojureScript TODO
+# ClojureScript Todo
 
-A super simple TODO app built with ClojureScript and Reagent.
+A super simple Todo app built with ClojureScript and Reagent.
 
 ## Demo
 
@@ -14,7 +14,7 @@ npm start
 
 ## Further development
 
-- Update item save button
-- Add due date
+- ~Update item save button~
+- ~Add due date~
 - Add tags
-- Switch back to global Atom state
+- ~Switch back to global Atom state~
