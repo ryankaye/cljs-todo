@@ -50,7 +50,7 @@
                                      (if (and (not= text "") (= (-> e .-which) 13))
                                        (do
                                          (add-todo (get @state/data :new-todo))
-                                         (reset-new-todo [todoid]))))
+                                         (reset-new-todo todoid))))
                         :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:text] (-> e .-target .-value)))}]
      [:input {:type :date
               :value  (get (get @state/data :new-todo) :date)
@@ -59,7 +59,7 @@
                :disabled (if (= text "") "disabled")
                :on-click (fn []
                            (add-todo (get @state/data :new-todo))
-                           (reset-new-todo [todoid]))} "Add"]]))
+                           (reset-new-todo todoid))} "Add"]]))
 
 
 ;; Component: Update form + listing
