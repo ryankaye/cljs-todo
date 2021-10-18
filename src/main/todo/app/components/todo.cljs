@@ -9,8 +9,7 @@
 
 
 (defn add-todo [new-todo]
-  (swap! state/data update :todos merge
-         {(get-in new-todo [:todoid]) new-todo}))
+  (swap! state/data update :todos merge {(get-in new-todo [:todoid]) new-todo}))
 
 
 ;; Update an existing todo (Swap! to amend the atom; assoc-in to amend the map)
