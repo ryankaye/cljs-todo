@@ -17,7 +17,7 @@
 
 
 (defn update-todo [e todoid]
-  (swap! state/data update :todos assoc-in [todoid (keyword (-> e .-target .-type))] (-> e .-target .-value)))
+  (swap! state/data update :todos assoc-in [todoid (keyword (-> e .-target .-name))] (-> e .-target .-value)))
 
 
 ;; Delete a todo (Swap! to amend the atom; dissoc to amend the map)
@@ -75,10 +75,12 @@
                                 (delete-todo todoid))}]
            [:input {:value text
                     :type :text
+                    :name "text"
                     :on-change (fn [e]
                                  (update-todo e todoid))}]
            [:input {:type :date
                     :value date
+                    :name "date"
                     :on-change (fn [e]
                                  (update-todo e todoid))}]])
         (vals (reverse (get @state/data :todos))))])
