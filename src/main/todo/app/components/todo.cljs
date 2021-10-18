@@ -61,7 +61,7 @@
                         :on-change (fn [e] (cache-new-todo e))}]
      [:input {:type :date
               :name "date"
-              :value  (get (get @state/data :new-todo) :date)
+              :value date
               :on-change (fn [e] (cache-new-todo e))}]
      [:button {:data-tooltip "Add a new todo item"
                :disabled (if (= text "") "disabled")
