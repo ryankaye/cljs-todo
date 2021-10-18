@@ -1,6 +1,7 @@
 (ns todo.app.components.todo
   (:require [todo.app.state :as state]))
 
+
 ;; --- UPDATE
 
 
@@ -26,7 +27,7 @@
   (swap! state/data update :todos dissoc todoid))
 
 
-;; Reset new todo atom values ready for the next input
+;; Reset new-todo atom values ready for the next input
 
 
 (defn reset-new-todo [last-id]
@@ -59,7 +60,6 @@
                :on-click (fn []
                            (add-todo (get @state/data :new-todo))
                            (reset-new-todo [todoid]))} "Add"]]))
-
 
 
 ;; Component: Update form + listing
