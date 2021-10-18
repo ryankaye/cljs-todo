@@ -34,7 +34,7 @@
   (swap! state/data update :new-todo merge {:todoid (inc last-id) :date "" :text ""}))
 
 
-;; Cache the new input values ready for saving
+;; Cache the new input values ready for adding to the todo list
 
 
 (defn cache-new-todo [e]
