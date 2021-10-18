@@ -34,6 +34,13 @@
   (swap! state/data update :new-todo merge {:todoid (inc last-id) :date "" :text ""}))
 
 
+;; Cache the new input values ready for saving
+
+
+(defn update-new-todo [e]
+  (swap! state/data update :new-todo assoc-in [(keyword (-> e .-target .-name))] (-> e .-target .-value)))
+
+
 ;; --- VIEW 
 
 
@@ -46,15 +53,17 @@
      [:input.add-input {:type :text
                         :placeholder "Add a new todo item "
                         :value text
+                        :name "text"
                         :on-key-up (fn [e]
                                      (if (and (not= text "") (= (-> e .-which) 13))
                                        (do
                                          (add-todo (get @state/data :new-todo))
                                          (reset-new-todo todoid))))
-                        :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:text] (-> e .-target .-value)))}]
+                        :on-change (fn [e] (update-new-todo e))}]
      [:input {:type :date
+              :name "date"
               :value  (get (get @state/data :new-todo) :date)
-              :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:date] (-> e .-target .-value)))}]
+              :on-change (fn [e] (update-new-todo e))}]
      [:button {:data-tooltip "Add a new todo item"
                :disabled (if (= text "") "disabled")
                :on-click (fn []
