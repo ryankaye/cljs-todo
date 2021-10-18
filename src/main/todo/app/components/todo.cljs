@@ -37,7 +37,7 @@
 ;; Cache the new input values ready for saving
 
 
-(defn update-new-todo [e]
+(defn cache-new-todo [e]
   (swap! state/data update :new-todo assoc-in [(keyword (-> e .-target .-name))] (-> e .-target .-value)))
 
 
@@ -59,11 +59,11 @@
                                        (do
                                          (add-todo (get @state/data :new-todo))
                                          (reset-new-todo todoid))))
-                        :on-change (fn [e] (update-new-todo e))}]
+                        :on-change (fn [e] (cache-new-todo e))}]
      [:input {:type :date
               :name "date"
               :value  (get (get @state/data :new-todo) :date)
-              :on-change (fn [e] (update-new-todo e))}]
+              :on-change (fn [e] (cache-new-todo e))}]
      [:button {:data-tooltip "Add a new todo item"
                :disabled (if (= text "") "disabled")
                :on-click (fn []
