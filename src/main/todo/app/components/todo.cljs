@@ -47,9 +47,9 @@
                         :value text
                         :on-key-up (fn [e]
                                      (if (and (not= text "") (= (-> e .-which) 13))
-                                       (do (add-todo (get @state/data :new-todo))
-                                           (reset-new-todo [todoid]))))
-
+                                       (do
+                                         (add-todo (get @state/data :new-todo))
+                                         (reset-new-todo [todoid]))))
                         :on-change (fn [e] (swap! state/data update :new-todo assoc-in [:text] (-> e .-target .-value)))}]
      [:input {:type :date
               :value  (get (get @state/data :new-todo) :date)
@@ -84,7 +84,7 @@
         (vals (reverse (get @state/data :todos))))])
 
 
-;; Component: Main views renderer
+;; Component: Main view renderer
 
 
 (defn todo []
